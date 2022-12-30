@@ -1,6 +1,6 @@
 import {Component, ViewChild} from "@angular/core";
-import { invoke } from "@tauri-apps/api/tauri";
 import {QueryResultComponent} from "./query-result/query-result.component";
+import {QueryService} from "./query.service";
 
 @Component({
   selector: 'app-root',
@@ -8,14 +8,19 @@ import {QueryResultComponent} from "./query-result/query-result.component";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  greetingMessage = "";
+  queryService: QueryService;
 
-  @ViewChild("queryResult") queryResult!: QueryResultComponent;
+  @ViewChild('queryResult') queryResult!: QueryResultComponent;
 
-  greet(name: string): void {
-    invoke<Object[]>("greet", { name }).then((data) => {
-      //this.greetingMessage = text;
-      this.queryResult.dataSource = data;
-    }).catch((error) => console.error(error));
+  constructor(queryService: QueryService) {
+    this.queryService = queryService;
+  }
+
+  query(sql: string): void {
+    this.queryService.execute(sql).then((data) => {
+      console.log('updating child datasource to ' + data);
+      this.queryResult.dataSource.data = data;
+      this.queryResult.ngOnInit();
+    }).catch(error => console.log(error));
   }
 }

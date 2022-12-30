@@ -1,4 +1,3 @@
-<p>query result works!</p>
 <mat-table #table [dataSource]="dataSource">
     <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
         <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>

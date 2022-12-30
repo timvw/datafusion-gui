@@ -2,8 +2,14 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import {QueryService} from "../app/query.service";
+import {MockQueryService} from "../app/query.mock.service";
+
 export const environment = {
   production: false,
+  providers: [
+    //{ provide: QueryService, useClass: MockQueryService },
+  ],
 };
 
 /*

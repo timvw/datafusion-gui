@@ -18,14 +18,12 @@
 
     <div class="row">
         <div>
-            <input #greetInput id="greet-input" placeholder="Enter a name..." />
-            <button type="button" (click)="greet(greetInput.value)">Greet</button>
+            <input #queryInput id="query-input" placeholder="Enter a query..." value="show tables"/>
+            <button type="button" (click)="query(queryInput.value)">Run</button>
         </div>
     </div>
 
     <div class="row">
         <app-query-result #queryResult></app-query-result>
     </div>
-
-    <p>{{ greetingMessage }}</p>
 </div>
