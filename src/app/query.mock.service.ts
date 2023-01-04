@@ -14,6 +14,10 @@ export class MockQueryService {
   ];
 
   execute(sql: String): Promise<Object[]> {
-    return Promise.resolve(this.mockData);
+    if (sql.toUpperCase() == "SHOW TABLES") {
+      return Promise.resolve(this.mockData);
+    } else {
+      return Promise.resolve([]);
+    }
   }
 }

@@ -8,7 +8,7 @@ import {MockQueryService} from "../app/query.mock.service";
 export const environment = {
   production: false,
   providers: [
-    //{ provide: QueryService, useClass: MockQueryService },
+    { provide: QueryService, useClass: MockQueryService },
   ],
 };
 

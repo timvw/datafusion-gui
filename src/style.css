@@ -1,3 +1,5 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

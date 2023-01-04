@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 
 @Component({
@@ -6,7 +6,7 @@ import {MatTable, MatTableDataSource} from "@angular/material/table";
   templateUrl: './query-result.component.html',
   styleUrls: ['./query-result.component.css']
 })
-export class QueryResultComponent implements OnInit, OnChanges {
+export class QueryResultComponent implements OnInit {
 
   constructor() { }
 
@@ -19,13 +19,9 @@ export class QueryResultComponent implements OnInit, OnChanges {
   displayedColumns:Array<any> = [];
 
   ngOnInit(): void {
-    console.log("initialized thingie...")
-    this.ngOnChanges({ });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('need to handle ' + changes);
-
+  updateData(): void {
     // Get list of columns by gathering unique keys of objects found in DATA.
     const columns = this.dataSource.data.length == 0 ? [] : Object.getOwnPropertyNames(this.dataSource.data[0]);
     console.log('columns found: ' + columns);

@@ -8,18 +8,26 @@ import { QueryResultComponent } from './query-result/query-result.component';
 import {BrowserModule} from "@angular/platform-browser";
 import {MatTableModule} from "@angular/material/table";
 import {CdkTableModule} from "@angular/cdk/table";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
     AppComponent,
     QueryResultComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    MatTableModule,
-    CdkTableModule,
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        MatTableModule,
+        CdkTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+    ],
   providers: [
     ...environment.providers,
   ],

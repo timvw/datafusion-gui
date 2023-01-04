@@ -17,10 +17,11 @@ export class AppComponent {
   }
 
   query(sql: string): void {
+    console.log('need to execute: ' + sql);
     this.queryService.execute(sql).then((data) => {
       console.log('updating child datasource to ' + data);
       this.queryResult.dataSource.data = data;
-      this.queryResult.ngOnInit();
+      this.queryResult.updateData();
     }).catch(error => console.log(error));
   }
 }
