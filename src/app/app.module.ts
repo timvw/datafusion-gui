@@ -13,11 +13,14 @@ import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
+import { QueryEditorComponent } from './query-editor/query-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QueryResultComponent
+    QueryResultComponent,
+    QueryEditorComponent
   ],
     imports: [
         CommonModule,
@@ -29,6 +32,7 @@ import {ReactiveFormsModule} from "@angular/forms";
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
+        MatCardModule,
     ],
   providers: [
     ...environment.providers,

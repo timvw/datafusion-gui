@@ -1,7 +1,11 @@
-<div class="container">
+<mat-card>
 
+    <mat-card-header>
+        <mat-card-title>Datafusion GUI</mat-card-title>
+    </mat-card-header>
+
+    <div class="row">
     <form class="example-form" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
-
         <mat-form-field class="example-full-width">
             <mat-label>Query</mat-label>
             <textarea formControlName="query" matInput placeholder="Enter a query..."></textarea>
@@ -10,10 +14,8 @@
         <button mat-fab extended>
             <mat-icon>arrow_right</mat-icon>
         </button>
-
     </form>
-
-    <div class="row">
-        <app-query-result #queryResult></app-query-result>
     </div>
-</div>
+
+    <app-query-result #queryResult></app-query-result>
+</mat-card>
