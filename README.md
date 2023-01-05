@@ -1,6 +1,10 @@
-# Tauri + Angular
+# Datafusion GUI
 
-This template should help get you started developing with Tauri and Angular.
+A simple GUI for [DataFusion](https://github.com/apache/arrow-datafusion).
+
+## Demo
+
+[![Thumbnail of data-fusion-gui demo video](datafusion-gui-demo-thumbnail.png)](https://youtu.be/fbwU8Lsp5FY "Datafusion-gui demo")
 
 ## Recommended IDE Setup
 
