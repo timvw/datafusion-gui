@@ -1,21 +1,22 @@
 <mat-card>
 
     <mat-card-header>
-        <mat-card-title>Datafusion GUI</mat-card-title>
+        <mat-card-title>Editor</mat-card-title>
     </mat-card-header>
 
     <div class="row">
     <form class="example-form" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="example-full-width">
             <mat-label>Query</mat-label>
-            <textarea #q formControlName="query" matInput placeholder="Enter a query..." (select)="select($event)"></textarea>
+            <textarea #q formControlName="query" matInput placeholder="Enter a query..." rows="10"></textarea>
         </mat-form-field>
 
         <button mat-fab extended>
-            <mat-icon>arrow_right</mat-icon>
+            <!--<mat-icon>arrow_right</mat-icon>-->
+            Run
         </button>
     </form>
     </div>
-
-    <app-query-result #queryResult></app-query-result>
 </mat-card>
+
+<app-query-result #queryResult></app-query-result>

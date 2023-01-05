@@ -1,10 +1,11 @@
-import {Component, ViewChild} from "@angular/core";
+import {Component, ElementRef, ViewChild} from "@angular/core";
 import { FormBuilder } from '@angular/forms';
 import {QueryResultComponent} from "./query-result/query-result.component";
 import {QueryService} from "./query.service";
 import {listen} from "@tauri-apps/api/event";
 import {FileDropEvent} from "@tauri-apps/api/window";
 import { writeText, readText } from "@tauri-apps/api/clipboard";
+import {Element} from "@angular/compiler";
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,16 @@ export class AppComponent {
 
 
   queryForm = this.formBuilder.group({
-    query: 'SHOW TABLES',
+    query: 'SHOW TABLES;\n' +
+           '# Press run and see the current database tables below',
   });
 
   private selectedText: string = '';
 
   @ViewChild('queryResult') queryResult!: QueryResultComponent;
   @ViewChild('q') q!: HTMLTextAreaElement;
+
+  @ViewChild('q') $textarea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
       private queryService: QueryService,
@@ -31,7 +35,9 @@ export class AppComponent {
     const unlisten = listen<FileDropEvent>('tauri://file-drop', async event => {
       console.log('handling filedrop ' + event + ' payload: ' + event.payload);
       const existing = this.queryForm.value.query ?? '';
-      const sql = existing + '\nCREATE EXTERNAL TABLE test STORED AS PARQUET LOCATION \'' + event.payload + '\'';
+      const sql = existing +
+        '\nCREATE EXTERNAL TABLE test STORED AS PARQUET LOCATION \'' + event.payload + '\';' +
+        '\nSELECT * FROM test LIMIT 10;';
       console.log('need to update queryform value to ' + sql);
       this.queryForm.patchValue({
         query: sql,
@@ -49,16 +55,17 @@ export class AppComponent {
   }
 
   onSubmit() {
-    if (this.selectedText != '') {
-      this.query(this.selectedText);
+
+    console.log('start: ' + this.$textarea.nativeElement.selectionStart);
+    const textArea = this.$textarea.nativeElement;
+    const start = textArea.selectionStart;
+    const end = textArea.selectionEnd;
+    const selectedText = textArea.value.substr(start, end - start);
+
+    if (selectedText != '') {
+      this.query(selectedText);
     } else {
       this.query(this.queryForm.value.query ?? '');
     }
-  }
-
-  select(event: any) {
-    const start = event.target.selectionStart;
-    const end = event.target.selectionEnd;
-    this.selectedText = event.target.value.substr(start, end - start);
   }
 }
