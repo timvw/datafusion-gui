@@ -1,13 +1,13 @@
 <div class="container">
 
-    <form class="example-form">
+    <form class="example-form" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
 
         <mat-form-field class="example-full-width">
             <mat-label>Query</mat-label>
-            <textarea #querytext matInput placeholder="Enter a query...">SHOW TABLES</textarea>
+            <textarea formControlName="query" matInput placeholder="Enter a query..."></textarea>
         </mat-form-field>
 
-        <button type="button" mat-fab extended (click)="query(querytext.value)">
+        <button mat-fab extended>
             <mat-icon>arrow_right</mat-icon>
         </button>
 

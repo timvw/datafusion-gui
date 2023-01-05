@@ -1,4 +1,5 @@
 import {Component, ViewChild} from "@angular/core";
+import { FormBuilder } from '@angular/forms';
 import {QueryResultComponent} from "./query-result/query-result.component";
 import {QueryService} from "./query.service";
 
@@ -8,13 +9,18 @@ import {QueryService} from "./query.service";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  queryService: QueryService;
+
+
+  queryForm = this.formBuilder.group({
+    query: 'SHOW TABLES',
+  });
 
   @ViewChild('queryResult') queryResult!: QueryResultComponent;
 
-  constructor(queryService: QueryService) {
-    this.queryService = queryService;
-  }
+  constructor(
+      private queryService: QueryService,
+      private formBuilder: FormBuilder,
+  ) {}
 
   query(sql: string): void {
     console.log('need to execute: ' + sql);
@@ -23,5 +29,9 @@ export class AppComponent {
       this.queryResult.dataSource.data = data;
       this.queryResult.updateData();
     }).catch(error => console.log(error));
+  }
+
+  onSubmit() {
+    this.query(this.queryForm.value.query ?? '');
   }
 }
