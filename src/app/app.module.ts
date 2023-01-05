@@ -15,7 +15,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import { QueryEditorComponent } from './query-editor/query-editor.component';
-import { TauriEvent} from '@tauri-apps/api/event';
 
 @NgModule({
   declarations: [

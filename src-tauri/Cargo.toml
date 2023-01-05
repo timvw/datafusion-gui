@@ -16,7 +16,7 @@ tauri-build = { version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["fs-all", "shell-open"] }
+tauri = { version = "1.2", features = ["clipboard-read-text", "fs-copy-file", "fs-create-dir", "fs-exists", "fs-read-dir", "fs-read-file", "fs-write-file", "shell-open"] }
 datafusion = { version = "15" }
 
 [features]

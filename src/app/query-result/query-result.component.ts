@@ -8,11 +8,11 @@ import {MatTable, MatTableDataSource} from "@angular/material/table";
 })
 export class QueryResultComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   @ViewChild('table') table!: MatTable<any>;
 
-  //@Input() data: any[] = [];
   dataSource = new MatTableDataSource<any>();
 
   columns: Array<any> = [];
@@ -21,7 +21,8 @@ export class QueryResultComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateData(): void {
+  updateData(data: Object[]): void {
+    this.dataSource.data = data;
     // Get list of columns by gathering unique keys of objects found in DATA.
     const columns = this.dataSource.data.length == 0 ? [] : Object.getOwnPropertyNames(this.dataSource.data[0]);
     console.log('columns found: ' + columns);
