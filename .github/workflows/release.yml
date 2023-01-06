@@ -87,3 +87,12 @@ jobs:
         name: Build
         run: |
           yarn && yarn build && yarn tauri build -c version.json
+      -
+        name: Upload binaries to release
+        if: matrix.platform == 'ubuntu-20.04'
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: src-tauri/target/release/bundle/deb/*.deb,src-tauri/target/release/bundle/appimage/*.AppImage
+          tag_name: v${{ github.event.inputs.version }}
+          draft: true      
