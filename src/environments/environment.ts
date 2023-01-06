@@ -7,9 +7,7 @@ import {MockQueryService} from "../app/query.mock.service";
 
 export const environment = {
   production: false,
-  providers: [
-    //{ provide: QueryService, useClass: MockQueryService },
-  ],
+  providers: typeof(window.__TAURI_IPC__) == 'function' ? [] : [ { provide: QueryService, useClass: MockQueryService } ],
 };
 
 /*
