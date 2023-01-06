@@ -61,7 +61,6 @@ jobs:
       fail-fast: false
       matrix:
         platform: [macos-latest, ubuntu-20.04, windows-latest]
-        runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
       - name: install dependencies (ubuntu only)
