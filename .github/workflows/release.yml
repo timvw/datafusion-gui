@@ -54,14 +54,14 @@ jobs:
           tag_name: v${{ github.event.inputs.version }}
           target_commitish: ${{ steps.commit.outputs.commitish }} 
     
-  build_assets:
+  build_assets_and_upload:
     needs: create_draft_release
     name: Build (${{ matrix.platform }})
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-20.04]
+        platform: [macos-latest, ubuntu-20.04]
     steps:
       -
         name: Checkout code
@@ -86,13 +86,14 @@ jobs:
       - 
         name: Build
         run: |
-          yarn && yarn build && yarn tauri build -c version.json
+          yarn && yarn build && yarn tauri build -c version.json 
       -
         name: Upload binaries to release
-        if: matrix.platform == 'ubuntu-20.04'
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: src-tauri/target/release/bundle/deb/*.deb,src-tauri/target/release/bundle/appimage/*.AppImage
+          files: src-tauri/target/release/bundle/deb/*.deb,src-tauri/target/release/bundle/appimage/*.AppImage,src-tauri/target/release/bundle/macos/*.app,src-tauri/target/release/bundle/dmg/*.dmg
+          fail_on_unmatched_files: false
           tag_name: v${{ github.event.inputs.version }}
-          draft: true      
+          draft: true
+
