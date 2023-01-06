@@ -56,7 +56,7 @@ jobs:
     
   build_assets_and_add_to_release:
     needs: create_draft_release
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
