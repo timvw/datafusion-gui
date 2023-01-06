@@ -1,19 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { environment } from 'src/environments/environment';
-
-import { AppComponent } from './app.component';
-import { QueryResultComponent } from './query-result/query-result.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {BrowserModule} from "@angular/platform-browser";
-import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
+import {MatTableModule} from "@angular/material/table";
 import {CdkTableModule} from "@angular/cdk/table";
-import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
-import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
+import {MatCardModule} from "@angular/material/card";
+
+import { environment } from 'src/environments/environment';
+import { AppComponent } from './app.component';
+import { QueryResultComponent } from './query-result/query-result.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 
 @NgModule({

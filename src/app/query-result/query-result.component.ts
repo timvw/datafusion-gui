@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-query-result',
