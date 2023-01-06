@@ -35,7 +35,7 @@ jobs:
         name: Commit manifest file
         id: commit
         run: |
-          git add Cargo.toml
+          git add version.json
           git commit --message "Prepare release ${{ github.event.inputs.version }}"
           echo "::set-output name=commitish::$(git rev-parse HEAD)"
         shell: bash
