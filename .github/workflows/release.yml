@@ -54,26 +54,30 @@ jobs:
           tag_name: v${{ github.event.inputs.version }}
           target_commitish: ${{ steps.commit.outputs.commitish }} 
     
-  build_assets_and_add_to_release:
+  build_assets:
     needs: create_draft_release
+    name: Build (${{ matrix.platform }})
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
-    steps:
-      - uses: actions/checkout@v3
-      - name: install dependencies (ubuntu only)
+        platform: [ubuntu-20.04]
+    steps:     
+      - 
+        name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-20.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y apt libwebkit2gtk-4.0-dev build-essential curl wget libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
-      - name: setup node
+      - 
+        name: setup node
         uses: actions/setup-node@v3
         with:
           node-version: 19.3
-      - name: Checkout Toolchain
+      - 
+        name: Checkout Toolchain
         uses: dtolnay/rust-toolchain@stable
-      - name: build
+      - 
+        name: Build
         run: |
           yarn && yarn build && yarn tauri build -c version.json
