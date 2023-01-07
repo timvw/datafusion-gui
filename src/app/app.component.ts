@@ -15,7 +15,9 @@ export class AppComponent {
 
   queryForm = this.formBuilder.group({
     query: 'select * from information_schema.tables;\n' +
-           '# Press run and see the current database tables below',
+           '# Press run and see the current database tables below\n' +
+           'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\';\n' +
+           'select * from test limit 10;',
   });
 
   private selectedText: string = '';
@@ -27,7 +29,6 @@ export class AppComponent {
       private queryService: QueryService,
       private formBuilder: FormBuilder,
   ) {
-    console.log('creating app component');
     const unlisten = listen<FileDropEvent>('tauri://file-drop', async event => {
       console.log('handling filedrop ' + event + ' payload: ' + event.payload);
       const existing = this.queryForm.value.query ?? '';
@@ -44,7 +45,6 @@ export class AppComponent {
 
 
   query(sql: string): void {
-    console.log('need to execute: ' + sql);
     this.queryService.execute(sql).then((data) => {
       this.queryResult.updateData(data);
     }).catch(error => console.log(error));

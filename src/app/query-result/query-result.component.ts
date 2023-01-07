@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
+import {QueryResult} from "../models/query-result";
 
 @Component({
   selector: 'app-query-result',
@@ -21,18 +22,14 @@ export class QueryResultComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateData(data: Object[]): void {
-    this.dataSource.data = data;
-    // Get list of columns by gathering unique keys of objects found in DATA.
-    const columns = this.dataSource.data.length == 0 ? [] : Object.getOwnPropertyNames(this.dataSource.data[0]);
-    console.log('columns found: ' + columns);
-
-    // Describe the columns for <mat-table>.
-    this.columns = columns.map(column => {
+  updateData(queryResults: QueryResult[]): void {
+    const queryResult = queryResults[0];
+    this.dataSource.data = queryResult.data;
+    this.columns = queryResult.columns.map(column => {
       return {
-        columnDef: column,
-        header: column,
-        cell: (element: any) => `${element[column] ? element[column] : ``}`
+        columnDef: column.name,
+        header: column.name,
+        cell: (element: any) => `${element[column.name] ? element[column.name] : ``}`
       }
     })
     this.displayedColumns = this.columns.map(c => c.columnDef);
