@@ -4,8 +4,6 @@ import {QueryResultComponent} from "./query-result/query-result.component";
 import {QueryService} from "./query.service";
 import {listen} from "@tauri-apps/api/event";
 import {FileDropEvent} from "@tauri-apps/api/window";
-import { writeText, readText } from "@tauri-apps/api/clipboard";
-import {Element} from "@angular/compiler";
 
 @Component({
   selector: 'app-root',
@@ -16,15 +14,13 @@ export class AppComponent {
 
 
   queryForm = this.formBuilder.group({
-    query: 'SHOW TABLES;\n' +
+    query: 'select * from information_schema.tables;\n' +
            '# Press run and see the current database tables below',
   });
 
   private selectedText: string = '';
 
   @ViewChild('queryResult') queryResult!: QueryResultComponent;
-  @ViewChild('q') q!: HTMLTextAreaElement;
-
   @ViewChild('q') $textarea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -55,8 +51,6 @@ export class AppComponent {
   }
 
   onSubmit() {
-
-    console.log('start: ' + this.$textarea.nativeElement.selectionStart);
     const textArea = this.$textarea.nativeElement;
     const start = textArea.selectionStart;
     const end = textArea.selectionEnd;
