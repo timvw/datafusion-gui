@@ -18,17 +18,13 @@
         "open": true
       },
       "fs": {
-        "all": false,
+        "all": true,
         "readFile": true,
         "writeFile": true,
         "readDir": true,
         "copyFile": true,
         "createDir": true,
         "exists": true
-      },
-      "clipboard": {
-        "all": false,
-        "readText": true
       }
     },
     "bundle": {
