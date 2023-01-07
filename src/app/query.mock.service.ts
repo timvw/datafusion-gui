@@ -8,6 +8,7 @@ export class MockQueryService {
 
   mockShowTables(): QueryResult {
     return {
+      query: 'select * from information_schema.tables',
       columns: [
         { name: 'table_catalog' },
         { name: 'table_schema' },
@@ -26,6 +27,7 @@ export class MockQueryService {
 
   mockSelectTest(): QueryResult {
     return {
+      query: 'select * from test limit 10',
       columns: [
         {name: 'country'},
         {name: 'city'},
@@ -40,6 +42,7 @@ export class MockQueryService {
 
   mockCreateTable(): QueryResult {
     return {
+      query: 'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\'',
       columns: [],
       data: [],
     };
@@ -50,7 +53,7 @@ export class MockQueryService {
       return Promise.resolve([this.mockShowTables()]);
     } else if (sql.toLowerCase().trim() == "select * from test limit 10;") {
       return Promise.resolve([this.mockSelectTest()]);
-    } else if (sql.toLowerCase().trim() == "create external table test stored as parquet location '/Users/timvw/Desktop/test.parquet';") {
+    } else if (sql.toLowerCase().trim() == "create external table test stored as parquet location '/users/timvw/desktop/test.parquet';") {
       return Promise.resolve([this.mockCreateTable()]);
     }
     else {

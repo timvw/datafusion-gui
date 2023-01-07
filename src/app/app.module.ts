@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { QueryResultComponent } from './query-result/query-result.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { QueryEditorComponent } from './query-editor/query-editor.component';
         BrowserAnimationsModule,
         MatIconModule,
         MatCardModule,
+        MatTabsModule,
     ],
   providers: [
   {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

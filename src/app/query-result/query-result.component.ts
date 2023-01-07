@@ -15,6 +15,7 @@ export class QueryResultComponent implements OnInit {
   @ViewChild('table') table!: MatTable<any>;
 
   dataSource = new MatTableDataSource<any>();
+  dataSources: QueryResult[] = [];
 
   columns: Array<any> = [];
   displayedColumns:Array<any> = [];
@@ -23,6 +24,7 @@ export class QueryResultComponent implements OnInit {
   }
 
   updateData(queryResults: QueryResult[]): void {
+    this.dataSources = queryResults;
     const queryResult = queryResults[0];
     this.dataSource.data = queryResult.data;
     this.columns = queryResult.columns.map(column => {
