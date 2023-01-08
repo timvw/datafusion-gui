@@ -7,6 +7,6 @@ import {QueryResult} from "./models/query-result";
 })
 export class QueryService {
   execute(sql: String): Promise<QueryResult[]> {
-    return invoke<QueryResult[]>("greet", { name: sql });
+    return invoke<QueryResult[]>("execute_sql", { sql: sql });
   }
 }
