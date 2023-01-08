@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {QueryResult} from "../models/query-result";
 
@@ -14,18 +14,20 @@ export class QueryResultComponent implements OnInit {
 
   @ViewChild('table') table!: MatTable<any>;
 
-  dataSource = new MatTableDataSource<any>();
-  dataSources: QueryResult[] = [];
+  //dataSource = new MatTableDataSource<any>();
+  //@Input() dataSource!: MatTableDataSource<any>;
+  @Input() queryResult!: QueryResult;
+
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
   columns: Array<any> = [];
   displayedColumns:Array<any> = [];
 
   ngOnInit(): void {
+    this.updateData(this.queryResult);
   }
 
-  updateData(queryResults: QueryResult[]): void {
-    this.dataSources = queryResults;
-    const queryResult = queryResults[0];
+  updateData(queryResult: QueryResult): void {
     this.dataSource.data = queryResult.data;
     this.columns = queryResult.columns.map(column => {
       return {
@@ -35,7 +37,7 @@ export class QueryResultComponent implements OnInit {
       }
     })
     this.displayedColumns = this.columns.map(c => c.columnDef);
-    this.table.renderRows();
+    //this.table.renderRows();
   }
 
 }

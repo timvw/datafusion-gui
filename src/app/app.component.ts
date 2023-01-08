@@ -1,9 +1,9 @@
 import {Component, ElementRef, ViewChild} from "@angular/core";
 import { FormBuilder } from '@angular/forms';
-import {QueryResultComponent} from "./query-result/query-result.component";
 import {QueryService} from "./query.service";
 import {listen} from "@tauri-apps/api/event";
 import {FileDropEvent} from "@tauri-apps/api/window";
+import {QueryResultsComponent} from "./query-results/query-results.component";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,7 @@ export class AppComponent {
 
   private selectedText: string = '';
 
-  @ViewChild('queryResult') queryResult!: QueryResultComponent;
+  @ViewChild('queryResults') queryResults!: QueryResultsComponent;
   @ViewChild('q') $textarea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -46,7 +46,7 @@ export class AppComponent {
 
   query(sql: string): void {
     this.queryService.execute(sql).then((data) => {
-      this.queryResult.updateData(data);
+      this.queryResults.updateData(data);
     }).catch(error => console.log(error));
   }
 
