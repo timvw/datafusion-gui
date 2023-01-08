@@ -2,6 +2,8 @@
 
 A GUI for [DataFusion](https://github.com/apache/arrow-datafusion).
 
+![Screenshot of datafusion-gui v0.0.2](./datafusion-gui-v0.0.2.png)
+
 ## Installation
 
 Simply download and run the [latest](https://github.com/timvw/datafusion-gui/releases/latest) installer for your platform.
