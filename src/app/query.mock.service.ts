@@ -22,6 +22,7 @@ export class MockQueryService {
         { table_catalog: 'datafusion', table_schema: 'information_schema', table_name: 'columns', table_type: 'VIEW'},
         { table_catalog: 'datafusion', table_schema: 'information_schema', table_name: 'df_settings', table_type: 'VIEW'},
       ],
+      message: '4 rows in set.',
     };
   }
 
@@ -37,6 +38,7 @@ export class MockQueryService {
         {country: 'Belgium', city: 'Leuven'},
         {country: 'Germany', city: 'Berlin'},
       ],
+      message: '3 rows in set.',
     };
   }
 
@@ -45,6 +47,7 @@ export class MockQueryService {
       query: 'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\'',
       columns: [],
       data: [],
+      message: '0 rows in set.',
     };
   }
 

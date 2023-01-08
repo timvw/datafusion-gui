@@ -28,6 +28,9 @@ export class QueryResultComponent implements OnInit {
   }
 
   updateData(queryResult: QueryResult): void {
+    // what to do if the query results returns no data???
+    // create single row..
+
     this.dataSource.data = queryResult.data;
     this.columns = queryResult.columns.map(column => {
       return {
