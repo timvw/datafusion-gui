@@ -15,7 +15,6 @@ export class AppComponent {
 
   queryForm = this.formBuilder.group({
     query: 'select * from information_schema.tables;\n' +
-           '# Press run and see the current database tables below\n' +
            'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\';\n' +
            'select * from test limit 10;',
   });
