@@ -1,4 +1,4 @@
-<mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!queryResult.is_error">
     <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
         <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
         <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>

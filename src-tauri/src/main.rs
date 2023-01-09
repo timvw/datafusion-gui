@@ -3,8 +3,10 @@
     windows_subsystem = "windows"
 )]
 
+use std::future::Future;
 use std::sync::Arc;
 use datafusion::arrow::error::ArrowError;
+use datafusion::arrow::record_batch::RecordBatch;
 use datafusion::error::DataFusionError;
 use datafusion::prelude::*;
 use datafusion::sql::parser::{CreateExternalTable, DFParser, Statement};
@@ -29,7 +31,69 @@ pub struct QueryResult {
     pub query: String,
     pub columns: Vec<QueryResultColumn>,
     pub data: Vec<Map<String, Value>>,
+    pub is_error: bool,
     pub message: String,
+}
+
+fn rbs_to_json_data(rbs: &Vec<RecordBatch>) -> Result<Vec<Map<String, Value>>, String> {
+    datafusion::arrow::json::writer::record_batches_to_json_rows(rbs.as_slice())
+        .map_err(ae_to_s)
+}
+
+fn query_result_columns_from(df: Arc<DataFrame>) -> Vec<QueryResultColumn> {
+    df
+        .schema()
+        .fields()
+        .iter()
+        .map(|x| QueryResultColumn { name: String::from(x.name())})
+        .collect()
+}
+
+fn get_value<T>(result: Result<T, T>) -> T {
+    match result {
+        Ok(t) => t,
+        Err(t) => t,
+    }
+}
+
+async fn get_future_value<T>(result: Result<impl Future<Output=T>, T>) -> T {
+    match result {
+        Ok(tf) => tf.await,
+        Err(t) => t,
+    }
+}
+
+impl QueryResult {
+
+    pub async fn from_data(query: &str, df: Arc<DataFrame>) -> QueryResult {
+
+        let result = df.collect().await
+            .map_err(dfe_to_s).map_err(|msg| QueryResult::from_error_message(&query, &msg))
+            .and_then(|rbs| rbs_to_json_data(&rbs).map_err(|msg|QueryResult::from_error_message(&query, &msg)))
+            .and_then(|data| {
+                let columns = query_result_columns_from(df);
+                let message = format!("{} rows in set.", data.len());
+                Ok(QueryResult {
+                    is_error: false,
+                    query: query.to_string(),
+                    columns,
+                    data,
+                    message,
+                })
+            });
+
+        get_value(result)
+    }
+
+    pub fn from_error_message(query: &str, message: &str) -> QueryResult {
+        QueryResult {
+            is_error: true,
+            query: String::from(query),
+            columns: vec![],
+            data: vec![],
+            message: String::from(message),
+        }
+    }
 }
 
 fn get_sql(s: &Statement) -> String {
@@ -65,70 +129,32 @@ fn test_get_create_external_table_sql() {
 }
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+// need to wrap the returned value ina  result when dealing with state
+//https://github.com/tauri-apps/tauri/discussions/4317
 #[tauri::command]
-async fn execute_sql(sql: &str, state: tauri::State<'_, Arc<SessionContext>>) -> Result<Vec<QueryResult>, String> {
+async fn execute_sql(sql: String, state: tauri::State<'_, Arc<SessionContext>>) -> Result<Vec<QueryResult>, ()> {
+    let parse_result = DFParser::parse_sql(&sql).map_err(|pe| format!("{}", pe));
+    let result = match parse_result {
+        Err(msg) => vec![QueryResult::from_error_message(&sql, &msg)],
+        Ok(statements) => {
+            let sql_statements = if statements.len() == 1 {
+                vec![String::from(sql)]
+            } else {
+                statements.iter().map(|s| get_sql(s)).collect()
+            };
 
-    let statements = DFParser::parse_sql(sql).map_err(|pe| format!("{}", pe))?;
-
-    let sql_statements = if statements.len() == 1 {
-        vec![String::from(sql)]
-    } else {
-        statements.iter().map(|s| get_sql(s)).collect()
+            let mut query_results = Vec::new();
+            for statement in sql_statements {
+                let dfr = state.sql(&statement).await
+                    .map_err(dfe_to_s).map_err(|msg|QueryResult::from_error_message(&statement, &msg))
+                    .and_then(|df| Ok(QueryResult::from_data(&statement, df)));
+                let query_result = get_future_value(dfr).await;
+                query_results.push(query_result);
+            };
+            query_results
+        }
     };
-
-    let mut query_results = Vec::new();
-    for sql in sql_statements {
-        let dfr = state.sql(&sql).await.map_err(dfe_to_s);
-        let query_result = match dfr {
-            Ok(df) => {
-                let resultsr = df.collect().await.map_err(dfe_to_s);
-                match resultsr {
-                    Ok(results) => {
-                        let datar = datafusion::arrow::json::writer::record_batches_to_json_rows(&results).map_err(ae_to_s);
-                        match datar {
-                            Ok(data) => {
-                                let columns = df.schema().fields().iter().map(|x| QueryResultColumn { name: String::from(x.name())}).collect();
-                                let message = format!("{} rows in set.", data.len());
-                                QueryResult {
-                                    query: String::from(sql),
-                                    columns,
-                                    data,
-                                    message,
-                                }
-                            },
-                            Err(e) => {
-                                QueryResult {
-                                    query: String::from(sql),
-                                    columns: vec![],
-                                    data: vec![],
-                                    message: format!{"Error: {e}"},
-                                }
-                            }
-                        }
-                    },
-                    Err(e) => {
-                        QueryResult {
-                            query: String::from(sql),
-                            columns: vec![],
-                            data: vec![],
-                            message: format!{"Error: {e}"},
-                        }
-                    }
-                }
-            }
-            Err(e) => {
-                QueryResult {
-                    query: String::from(sql),
-                    columns: vec![],
-                    data: vec![],
-                    message: format!{"Error: {e}"},
-                }
-            }
-        };
-        query_results.push(query_result);
-    };
-
-    Ok(query_results)
+    Ok(result)
 }
 
 fn main() {

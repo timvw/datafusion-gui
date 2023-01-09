@@ -8,6 +8,7 @@ export class MockQueryService {
 
   mockShowTables(): QueryResult {
     return {
+      is_error: false,
       query: 'select * from information_schema.tables',
       columns: [
         { name: 'table_catalog' },
@@ -28,6 +29,7 @@ export class MockQueryService {
 
   mockSelectTest(): QueryResult {
     return {
+      is_error: false,
       query: 'select * from test limit 10',
       columns: [
         {name: 'country'},
@@ -44,6 +46,7 @@ export class MockQueryService {
 
   mockCreateTable(): QueryResult {
     return {
+      is_error: false,
       query: 'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\'',
       columns: [],
       data: [],

@@ -4,6 +4,6 @@ export interface QueryResult {
     query: string,
     columns: Array<QueryResultColumn>
     data: Object[],
-
     message: string,
+    is_error: boolean,
 }
