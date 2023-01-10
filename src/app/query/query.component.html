@@ -1,0 +1,21 @@
+<mat-card>
+
+    <mat-card-header>
+        <mat-card-title>Editor</mat-card-title>
+    </mat-card-header>
+
+    <div class="row">
+        <form class="example-form" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="example-full-width">
+                <mat-label>Query</mat-label>
+                <textarea #q formControlName="query" matInput rows="10"></textarea>
+            </mat-form-field>
+
+            <button mat-fab extended>
+                <!--<mat-icon>arrow_right</mat-icon>-->
+                Run
+            </button>
+        </form>
+    </div>
+</mat-card>
+<app-query-results #queryResults></app-query-results>

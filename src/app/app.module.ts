@@ -16,13 +16,15 @@ import { QueryResultComponent } from './query-result/query-result.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { QueryResultsComponent } from './query-results/query-results.component';
+import { QueryComponent } from './query/query.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QueryResultComponent,
     QueryEditorComponent,
-    QueryResultsComponent
+    QueryResultsComponent,
+    QueryComponent
   ],
     imports: [
         CommonModule,
