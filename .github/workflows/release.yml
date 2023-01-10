@@ -86,7 +86,10 @@ jobs:
       - 
         name: Build
         run: |
-          yarn && yarn build && yarn tauri build -c version.json 
+          yarn && yarn build && yarn tauri build -c version.json
+        env: 
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}  
       -
         name: Upload binaries to release
         uses: softprops/action-gh-release@v1
