@@ -92,7 +92,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: src-tauri/target/release/bundle/deb/*.deb,src-tauri/target/release/bundle/appimage/*.AppImage,src-tauri/target/release/bundle/dmg/*.dmg,src-tauri/target/release/bundle/**/*.msi
+          files: src-tauri/target/release/bundle/deb/*.deb*,src-tauri/target/release/bundle/appimage/*.AppImage*,src-tauri/target/release/bundle/dmg/*.dmg*,src-tauri/target/release/bundle/msi/*.msi*
           fail_on_unmatched_files: false
           tag_name: v${{ github.event.inputs.version }}
           draft: true
