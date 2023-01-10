@@ -63,9 +63,6 @@
     "security": {
       "csp": null
     },
-    "updater": {
-      "active": false
-    },
     "windows": [
       {
         "fullscreen": false,
@@ -74,6 +71,14 @@
         "title": "datafusion-gui",
         "width": 800
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDYyMDZERjhFQzhFMzgwNjQKUldSa2dPUElqdDhHWXJrblJOSWlNTFB4eHdFeUtxYm9nZ2ZXcUFJR1VvODVDMTJnOEtqVy9nN2IK",
+      "endpoints": [
+        "https://tauri-update-server.vercel.app/update/{{target}}/{{current_version}}"
+      ]
+    }
   }
 }
