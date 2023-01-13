@@ -66,14 +66,14 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 700,
         "resizable": true,
         "title": "datafusion-gui",
         "width": 800
       }
     ],
     "updater": {
-      "active": true,
+      "active": false,
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDYyMDZERjhFQzhFMzgwNjQKUldSa2dPUElqdDhHWXJrblJOSWlNTFB4eHdFeUtxYm9nZ2ZXcUFJR1VvODVDMTJnOEtqVy9nN2IK",
       "endpoints": [

@@ -4,6 +4,10 @@ import {QueryService} from "../query.service";
 import {FormBuilder} from "@angular/forms";
 import {listen} from "@tauri-apps/api/event";
 import {FileDropEvent} from "@tauri-apps/api/window";
+import {NgxEditorModel} from "ngx-monaco-editor-v2/lib/types";
+import {EditorComponent} from "ngx-monaco-editor-v2";
+import {editor} from "monaco-editor";
+import ICodeEditor = editor.ICodeEditor;
 
 @Component({
   selector: 'app-query',
@@ -11,23 +15,39 @@ import {FileDropEvent} from "@tauri-apps/api/window";
   styleUrls: ['./query.component.css']
 })
 export class QueryComponent {
-  queryForm = this.formBuilder.group({
-    query: 'select * from information_schema.tables;\n' +
-        'create external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\';\n' +
-        'select * from test limit 10;',
-  });
 
-  private selectedText: string = '';
+  editorOptions = {
+    theme: 'vs-os',
+    lineNumbers: 'off',
+    minimap: { enabled: false },
+    contextmenu: false,
+    autoResize: false,
+    scrollbar: {
+      vertical: 'hidden',
+      horizontal: 'hidden',
+    }
+  };
+  code: NgxEditorModel= {
+    language: 'sql',
+    value: 'select * from test;\nselect  * from dual;' +
+      '\nselect * from information_schema.tables;' +
+      '\ncreate external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\';' +
+      '\nselect * from test limit 10;'};
+
+  editor!: ICodeEditor;
+  onInit(editor: any) {
+    this.editor = editor as ICodeEditor;
+    console.log('FOUND editor: ' + editor);
+  }
 
   @ViewChild('queryResults') queryResults!: QueryResultsComponent;
-  @ViewChild('q') $textarea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
       private queryService: QueryService,
-      private formBuilder: FormBuilder,
   ) {
     const unlisten = listen<FileDropEvent>('tauri://file-drop', async event => {
       console.log('handling filedrop ' + event + ' payload: ' + event.payload);
+      /*
       const existing = this.queryForm.value.query ?? '';
       const sql = existing +
           '\nCREATE EXTERNAL TABLE test STORED AS PARQUET LOCATION \'' + event.payload + '\';' +
@@ -35,28 +55,30 @@ export class QueryComponent {
       console.log('need to update queryform value to ' + sql);
       this.queryForm.patchValue({
         query: sql,
-      });
+      });*/
     });
   }
 
 
 
   query(sql: string): void {
+    console.log("querying for: " + sql);
     this.queryService.execute(sql).then((data) => {
       this.queryResults.updateData(data);
     }).catch(error => console.log(error));
   }
 
   onSubmit() {
-    const textArea = this.$textarea.nativeElement;
-    const start = textArea.selectionStart;
-    const end = textArea.selectionEnd;
-    const selectedText = textArea.value.substr(start, end - start);
-
-    if (selectedText != '') {
-      this.query(selectedText);
-    } else {
-      this.query(this.queryForm.value.query ?? '');
+    const e=  this.editor;
+    if(e != null) {
+      // @ts-ignore
+      const selectedText = e.getModel().getValueInRange(this.editor.getSelection());
+      if (selectedText != '') {
+        this.query(selectedText);
+      } else {
+        // @ts-ignore
+        this.query(e.getModel().getValue());
+      }
     }
   }
 }

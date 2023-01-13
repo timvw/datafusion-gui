@@ -5,11 +5,8 @@
     </mat-card-header>
 
     <div class="row">
-        <form class="example-form" [formGroup]="queryForm" (ngSubmit)="onSubmit()">
-            <mat-form-field class="example-full-width">
-                <mat-label>Query</mat-label>
-                <textarea #q formControlName="query" matInput rows="10"></textarea>
-            </mat-form-field>
+        <form class="example-form" (ngSubmit)="onSubmit()">
+            <ngx-monaco-editor #m class="my-code-editor" [options]="editorOptions" [model]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
 
             <button mat-fab extended>
                 <!--<mat-icon>arrow_right</mat-icon>-->
