@@ -1,11 +1,9 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {QueryResultsComponent} from "../query-results/query-results.component";
 import {QueryService} from "../query.service";
-import {FormBuilder} from "@angular/forms";
 import {listen} from "@tauri-apps/api/event";
 import {FileDropEvent} from "@tauri-apps/api/window";
 import {NgxEditorModel} from "ngx-monaco-editor-v2/lib/types";
-import {EditorComponent} from "ngx-monaco-editor-v2";
 import {editor} from "monaco-editor";
 import ICodeEditor = editor.ICodeEditor;
 import IEditorOptions = editor.IEditorOptions;
@@ -37,8 +35,6 @@ export class QueryComponent {
   editor!: ICodeEditor;
   onInit(editor: any) {
     this.editor = editor as ICodeEditor;
-    console.log('FOUND editor: ' + editor);
-    //monaco.languages.registerCompletionItemProvider('sql', {});
   }
 
   @ViewChild('queryResults') queryResults!: QueryResultsComponent;
@@ -48,15 +44,13 @@ export class QueryComponent {
   ) {
     const unlisten = listen<FileDropEvent>('tauri://file-drop', async event => {
       console.log('handling filedrop ' + event + ' payload: ' + event.payload);
-      /*
-      const existing = this.queryForm.value.query ?? '';
-      const sql = existing +
-          '\nCREATE EXTERNAL TABLE test STORED AS PARQUET LOCATION \'' + event.payload + '\';' +
-          '\nSELECT * FROM test LIMIT 10;';
-      console.log('need to update queryform value to ' + sql);
-      this.queryForm.patchValue({
-        query: sql,
-      });*/
+      if(this.editor != null) {
+        const existing = this.editor.getModel()?.getValue();
+        const updated = existing +
+            '\nCREATE EXTERNAL TABLE test STORED AS PARQUET LOCATION \'' + event.payload + '\';' +
+            '\nSELECT * FROM test LIMIT 10;';
+        this.editor.getModel()?.setValue(updated);
+      }
     });
   }
 
@@ -70,15 +64,16 @@ export class QueryComponent {
   }
 
   onSubmit() {
-    const e=  this.editor;
-    if(e != null) {
-      // @ts-ignore
-      const selectedText = e.getModel().getValueInRange(this.editor.getSelection());
-      if (selectedText != '') {
-        this.query(selectedText);
-      } else {
+    if(this.editor != null) {
+      const model = this.editor.getModel();
+      if(model != null){
         // @ts-ignore
-        this.query(e.getModel().getValue());
+        const selectedText = model.getValueInRange(this.editor.getSelection());
+        if (selectedText != '') {
+          this.query(selectedText);
+        } else {
+          this.query(model.getValue());
+        }
       }
     }
   }
