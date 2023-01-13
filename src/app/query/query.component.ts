@@ -8,6 +8,8 @@ import {NgxEditorModel} from "ngx-monaco-editor-v2/lib/types";
 import {EditorComponent} from "ngx-monaco-editor-v2";
 import {editor} from "monaco-editor";
 import ICodeEditor = editor.ICodeEditor;
+import IEditorOptions = editor.IEditorOptions;
+//import * as monaco from 'monaco-editor';
 
 @Component({
   selector: 'app-query',
@@ -16,12 +18,10 @@ import ICodeEditor = editor.ICodeEditor;
 })
 export class QueryComponent {
 
-  editorOptions = {
-    theme: 'vs-os',
+  //IEditorScrollbarOptions
+  editorOptions: IEditorOptions = {
     lineNumbers: 'off',
     minimap: { enabled: false },
-    contextmenu: false,
-    autoResize: false,
     scrollbar: {
       vertical: 'hidden',
       horizontal: 'hidden',
@@ -29,7 +29,7 @@ export class QueryComponent {
   };
   code: NgxEditorModel= {
     language: 'sql',
-    value: 'select * from test;\nselect  * from dual;' +
+    value: 'select  * from dual;' +
       '\nselect * from information_schema.tables;' +
       '\ncreate external table test stored as parquet location \'/Users/timvw/Desktop/test.parquet\';' +
       '\nselect * from test limit 10;'};
@@ -38,6 +38,7 @@ export class QueryComponent {
   onInit(editor: any) {
     this.editor = editor as ICodeEditor;
     console.log('FOUND editor: ' + editor);
+    //monaco.languages.registerCompletionItemProvider('sql', {});
   }
 
   @ViewChild('queryResults') queryResults!: QueryResultsComponent;

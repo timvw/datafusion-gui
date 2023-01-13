@@ -3,7 +3,7 @@
         <mat-card-title>Output</mat-card-title>
     </mat-card-header>
     <mat-tab-group mat-align-tabs="start">
-        <mat-tab *ngFor="let queryResult of queryResults; trackBy: trackByName; index as i" label="Result #{{i}}">
+        <mat-tab *ngFor="let queryResult of queryResults; index as i" label="Result #{{i}}">
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>Query #{{i}}: {{ queryResult.query }}</mat-card-title>

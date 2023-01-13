@@ -6,23 +6,11 @@ import {QueryResult} from "../models/query-result";
   templateUrl: './query-results.component.html',
   styleUrls: ['./query-results.component.css']
 })
-export class QueryResultsComponent implements AfterViewInit {
+export class QueryResultsComponent {
 
   queryResults: QueryResult[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
-
-  ngAfterViewInit() {
-    this.cdr.detach();
-  }
-
   updateData(queryResults: QueryResult[]): void {
-    console.log('updating results to ' + queryResults);
     this.queryResults = queryResults;
-  }
-
-  trackByName(index: number, queryResult: QueryResult) {
-    return queryResult.query;
   }
 }

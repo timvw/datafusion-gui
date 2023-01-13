@@ -14,8 +14,6 @@ export class QueryResultComponent implements OnInit {
 
   @ViewChild('table') table!: MatTable<any>;
 
-  //dataSource = new MatTableDataSource<any>();
-  //@Input() dataSource!: MatTableDataSource<any>;
   @Input() queryResult!: QueryResult;
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -28,10 +26,6 @@ export class QueryResultComponent implements OnInit {
   }
 
   updateData(queryResult: QueryResult): void {
-    // what to do if the query results returns no data???
-    // create single row..
-
-    this.dataSource.data = queryResult.data;
     this.columns = queryResult.columns.map(column => {
       return {
         columnDef: column.name,
@@ -41,6 +35,7 @@ export class QueryResultComponent implements OnInit {
     })
     this.displayedColumns = this.columns.map(c => c.columnDef);
     //this.table.renderRows();
+    this.dataSource.data = queryResult.data;
   }
 
 }
