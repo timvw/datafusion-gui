@@ -11,28 +11,28 @@
     "watch": "ng build --watch --configuration development"
   },
   "dependencies": {
-    "@angular-eslint/schematics": "15.1.0",
-    "@angular/animations": "^15.0.4",
-    "@angular/cdk": "15.0.4",
-    "@angular/common": "^15.0.4",
-    "@angular/compiler": "^15.0.4",
-    "@angular/core": "^15.0.4",
-    "@angular/forms": "^15.0.4",
-    "@angular/material": "15.0.4",
-    "@angular/platform-browser": "^15.0.4",
-    "@angular/platform-browser-dynamic": "^15.0.4",
-    "@angular/router": "^15.0.4",
-    "@tauri-apps/api": "^1.2.0",
-    "eslint": "^8.31.0",
-    "rxjs": "~7.5.0",
+    "@angular-eslint/schematics": "18.4.0",
+    "@angular/animations": "^18.0.0",
+    "@angular/cdk": "18.2.10",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/material": "18.2.10",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "@tauri-apps/api": "^2.0.0",
+    "eslint": "^9.0.0",
+    "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "typescript": "4.8",
-    "zone.js": "~0.11.4"
+    "typescript": "5.6",
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.0.5",
-    "@angular/cli": "~15.0.5",
-    "@angular/compiler-cli": "^15.0.4",
-    "@tauri-apps/cli": "^1.2.2"
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular/cli": "~18.2.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@tauri-apps/cli": "^2.0.0"
   }
 }
